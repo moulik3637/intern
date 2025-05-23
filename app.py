@@ -22,10 +22,25 @@ def index():
     with conn.cursor() as cursor:
         cursor.execute('SELECT * FROM interns')
         interns = cursor.fetchall()
-        cursor.execute('SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id FROM tasks t JOIN interns i ON t.intern_id = i.id')
+        cursor.execute('''
+            SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id
+            FROM tasks t
+            JOIN interns i ON t.intern_id = i.id
+        ''')
         tasks = cursor.fetchall()
+        # Get top 3 interns by total points
+        cursor.execute('''
+            SELECT i.id, i.name, SUM(t.points) AS total_points
+            FROM interns i
+            JOIN tasks t ON i.id = t.intern_id
+            GROUP BY i.id, i.name
+            ORDER BY total_points DESC
+            LIMIT 3
+        ''')
+        top_interns = cursor.fetchall()
     conn.close()
-    return render_template('index.html', interns=interns, tasks=tasks)
+    return render_template('index.html', interns=interns, tasks=tasks, top_interns=top_interns)
+
 
 @app.route('/public_intern/<int:intern_id>')
 def public_intern_detail(intern_id):
