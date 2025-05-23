@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Replace with your own secret key
+app.secret_key = os.environ.get('SECRET_KEY', 'supersecretkey')  # fallback if not set
 
-# MySQL Configuration
-app.config['MYSQL_HOST'] = 'yamanote.proxy.rlwy.net'
-app.config['MYSQL_PORT'] = 45467
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'oARyQIVqHTFtyUmljMQFhZKVsdnlebZK'
-app.config['MYSQL_DB'] = 'railway'
+# MySQL Configuration using environment variables
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))  # fallback to 3306 if not set
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 
 mysql = MySQL(app)
 
