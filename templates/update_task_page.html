@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Update Task{% endblock %}
+{% block content %}
+<div class="card" style="max-width:400px;margin:40px auto;">
+    <h2>Update Task</h2>
+    <form method="post">
+        <label>Task:</label>
+        <input type="text" value="{{ task.task }}" readonly>
+        <label>Status:</label>
+        <select name="status">
+            <option value="Processing" {% if task.status == 'Processing' %}selected{% endif %}>Processing</option>
+            <option value="To be reviewed" {% if task.status == 'To be reviewed' %}selected{% endif %}>To be reviewed</option>
+            <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+        </select>
+        <label>Points:</label>
+        <input type="number" name="points" value="{{ task.points }}" min="0">
+        <button type="submit" style="margin-top:15px;">Save</button>
+    </form>
+</div>
+{% endblock %}

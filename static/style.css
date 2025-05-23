@@ -1,0 +1,337 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Background Image */
+body {
+    background: url("/static/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+/* Light overlay to ensure readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #5d4037;
+    padding: 18px 30px;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* Container */
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Cards */
+.card {
+    background: #fffef9;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    padding: 25px;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Intern Info */
+.intern-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.intern-info {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+/* Admin Login */
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fdfbf8;
+}
+
+button {
+    background-color: #5d4037;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #3e2723;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 14px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+table th {
+    background-color: #5d4037;
+    color: white;
+}
+
+.status-done {
+    color: green;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    background-color: #ffe082;
+    color: #5d4037;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Animations */
+@keyframes fade-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.6s ease-out;
+}
+
+/* Admin panel styling */
+.admin-container {
+    max-width: 900px;
+    margin: 60px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(6px);
+    animation: fade-in 0.8s ease;
+}
+
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.admin-form input,
+.admin-form button,
+.admin-form select {
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fdfdfd;
+    transition: 0.3s ease;
+}
+
+.admin-form input:focus {
+    outline: none;
+    border-color: #5d4037;
+    box-shadow: 0 0 8px rgba(93, 64, 55, 0.4);
+}
+
+.admin-form button {
+    background: #5d4037;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.admin-form button:hover {
+    background: #3e2723;
+}
+
+/* Admin Table */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.admin-table th {
+    background: #663535;
+    font-weight: bold;
+}
+
+.admin-table tr:hover {
+    background: #f4f4f4;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.logout-button {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+/* Sidebar Layout */
+.dashboard-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 220px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar h3 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 20px;
+    flex: 1;
+}
+
+/* Buttons */
+.login-button, .logout-button {
+    display: block;
+    margin-top: 20px;
+    background: #3498db;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.navbar a,
+.navbar a:visited,
+.navbar a:active {
+    color: white !important;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #ffd700 !important; /* Optional: gold on hover, or pick any color */
+    text-decoration: underline;
+}

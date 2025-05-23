@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<div class="login-section">
+    <div class="login-box">
+        <h2>Admin Login</h2>
+        {% if msg %}
+        <div class="alert">{{ msg }}</div>
+        {% endif %}
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

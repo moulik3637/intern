@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h2>Admin Dashboard</h2>
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+    </div>
+
+    <h3>Add New Intern</h3>
+    <form method="post" class="admin-form">
+        <input type="text" name="name" placeholder="Intern Name" required>
+        <input type="text" name="department" placeholder="Department" required>
+        <button type="submit">Add Intern</button>
+    </form>
+
+    <h3>All Interns</h3>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Tasks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for intern in interns %}
+            <tr>
+                <td>{{ intern.id }}</td>
+                <td>{{ intern.name }}</td>
+                <td>{{ intern.department }}</td>
+                <td>
+                    <a href="{{ url_for('view_intern_tasks', intern_id=intern.id) }}">View & Assign Tasks</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

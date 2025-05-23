@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}{{ intern.name }}'s Tasks{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+    <!-- Sidebar (reuse for navigation) -->
+    <div class="sidebar">
+        <h3>Interns</h3>
+        <ul>
+            {% for i in interns %}
+            <li>
+                <a href="{{ url_for('public_intern_detail', intern_id=i.id) }}">{{ i.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="main-content">
+        <h2>{{ intern.name }} - {{ intern.department }}</h2>
+        <p>Total Points: {{ total_points }}</p>
+        <h3>Assigned Tasks</h3>
+        <table>
+            <tr>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Points</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.task }}</td>
+                <td>
+                    <span class="status-{{ task.status|lower|replace(' ', '-') }}">{{ task.status.replace('Done', 'Completed') }}</span>
+                </td>
+                <td>{{ task.points }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
