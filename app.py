@@ -23,16 +23,16 @@ def index():
         cursor.execute('SELECT * FROM interns')
         interns = cursor.fetchall()
 
-        # Order tasks by the numeric part of the task title
+        # ✅ Order tasks by insertion (task ID)
         cursor.execute('''
             SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id
             FROM tasks t
             JOIN interns i ON t.intern_id = i.id
-            ORDER BY CAST(SUBSTRING(t.task, 6, LOCATE(' ', t.task + ' ', 6) - 6) AS UNSIGNED)
+            ORDER BY t.id ASC
         ''')
         tasks = cursor.fetchall()
 
-        # Get top 3 interns by total points
+        # Top 3 interns by points
         cursor.execute('''
             SELECT i.id, i.name, SUM(t.points) AS total_points
             FROM interns i
