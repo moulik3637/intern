@@ -28,7 +28,7 @@ def index():
             SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id
             FROM tasks t
             JOIN interns i ON t.intern_id = i.id
-            ORDER BY CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(t.task, ' ', -1), ' ', 1) AS UNSIGNED)
+            ORDER BY CAST(SUBSTRING(t.task, 6, LOCATE(' ', t.task + ' ', 6) - 6) AS UNSIGNED)
         ''')
         tasks = cursor.fetchall()
 
