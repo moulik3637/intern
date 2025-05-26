@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
-# Database connection
+# Database connectio
 def get_db_connection():
     return pymysql.connect(
         host=os.environ.get('MYSQL_HOST'),
