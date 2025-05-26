@@ -22,12 +22,16 @@ def index():
     with conn.cursor() as cursor:
         cursor.execute('SELECT * FROM interns')
         interns = cursor.fetchall()
+
+        # Order tasks by the numeric part of the task title
         cursor.execute('''
             SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id
             FROM tasks t
             JOIN interns i ON t.intern_id = i.id
+            ORDER BY CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(t.task, ' ', -1), ' ', 1) AS UNSIGNED)
         ''')
         tasks = cursor.fetchall()
+
         # Get top 3 interns by total points
         cursor.execute('''
             SELECT i.id, i.name, SUM(t.points) AS total_points
