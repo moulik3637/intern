@@ -6,11 +6,14 @@
     <div class="sidebar">
         <h3>Interns</h3>
         <ul>
-            {% for i in interns %}
-            <li>
-                <a href="{{ url_for('public_intern_detail', intern_id=i.id) }}">{{ i.name }}</a>
-            </li>
-            {% endfor %}
+{% for intern in interns %}
+<li>
+    <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">
+        {{ intern.name }} <span style="color: #ccc;">(#{{ intern.rank }})</span>
+    </a>
+</li>
+{% endfor %}
+
         </ul>
     </div>
     <div class="main-content">
