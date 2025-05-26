@@ -3,7 +3,7 @@
 {% block content %}
 <div class="dashboard-container">
     <div class="main-content">
-        <div class="card animate-slide-up" style="max-width: 800px; margin: 0 auto;">
+        <div class="card animate-slide-up" style="max-width: 960px; margin: 0 auto;">
             <h2>{{ intern.name }} <span style="font-weight: normal;">- {{ intern.department }}</span></h2>
             <p style="font-size: 1.1rem; margin-bottom: 25px;"><strong>Total Points:</strong> {{ total_points }}</p>
 
@@ -15,7 +15,7 @@
                     <option value="To be reviewed">To be reviewed</option>
                     <option value="Completed">Completed</option>
                 </select>
-                <input type="number" name="points" placeholder="Points" min="0">
+                <input type="number" name="points" placeholder="Points" min="0" style="width: 100%;">
                 <button type="submit">Assign Task</button>
             </form>
 
