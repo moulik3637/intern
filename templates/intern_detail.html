@@ -1,52 +1,62 @@
 {% extends "layout.html" %}
 {% block title %}{{ intern.name }} Details{% endblock %}
 {% block content %}
-<h2>{{ intern.name }} - {{ intern.department }}</h2>
-<p>Total Points: {{ total_points }}</p>
+<div class="dashboard-container">
+    <div class="main-content">
+        <div class="card animate-slide-up" style="max-width: 800px; margin: 0 auto;">
+            <h2>{{ intern.name }} <span style="font-weight: normal;">- {{ intern.department }}</span></h2>
+            <p style="font-size: 1.1rem; margin-bottom: 25px;"><strong>Total Points:</strong> {{ total_points }}</p>
 
-<h3>Assign New Task</h3>
-<form method="post">
-    <input type="text" name="task" placeholder="Task Title" required>
-    <select name="status">
-        <option value="Processing">Processing</option>
-        <option value="To be reviewed">To be reviewed</option>
-        <option value="Completed">Completed</option>
-    </select>
-    <input type="number" name="points" placeholder="Points" min="0">
-    <button type="submit">Assign Task</button>
-</form>
-
-<h3>Assigned Tasks</h3>
-<table>
-    <tr>
-        <th>Task</th>
-        <th>Status</th>
-        <th>Points</th>
-        <th>Update</th>
-    </tr>
-    {% for task in tasks %}
-    <tr>
-        <td>{{ task.task }}</td>
-        <td>
-            <span class="status-{{ task.status|lower|replace(' ', '-') }}">{{ task.status.replace('Done', 'Completed') }}</span>
-        </td>
-        <td>{{ task.points }}</td>
-        <td>
-            {% if task.status != 'Completed' %}
-            <form action="{{ url_for('update_task', task_id=task.id) }}" method="post" style="display:inline;">
+            <h3>Assign New Task</h3>
+            <form method="post" class="admin-form" style="margin-bottom: 40px;">
+                <input type="text" name="task" placeholder="Task Title" required>
                 <select name="status">
-                    <option value="Processing" {% if task.status == 'Processing' %}selected{% endif %}>Processing</option>
-                    <option value="To be reviewed" {% if task.status == 'To be reviewed' %}selected{% endif %}>To be reviewed</option>
-                    <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Processing">Processing</option>
+                    <option value="To be reviewed">To be reviewed</option>
+                    <option value="Completed">Completed</option>
                 </select>
-                <input type="number" name="points" value="{{ task.points }}" min="0">
-                <button type="submit">Update</button>
+                <input type="number" name="points" placeholder="Points" min="0">
+                <button type="submit">Assign Task</button>
             </form>
-            {% else %}
-            <!-- No update button for Completed tasks -->
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+
+            <h3>Assigned Tasks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Status</th>
+                        <th>Points</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.task }}</td>
+                        <td>
+                            <span class="status-{{ task.status|lower|replace(' ', '-') }}">{{ task.status.replace('Done', 'Completed') }}</span>
+                        </td>
+                        <td>{{ task.points }}</td>
+                        <td>
+                            {% if task.status != 'Completed' %}
+                            <form action="{{ url_for('update_task', task_id=task.id) }}" method="post" style="display:flex; gap:10px; flex-wrap: wrap;">
+                                <select name="status">
+                                    <option value="Processing" {% if task.status == 'Processing' %}selected{% endif %}>Processing</option>
+                                    <option value="To be reviewed" {% if task.status == 'To be reviewed' %}selected{% endif %}>To be reviewed</option>
+                                    <option value="Completed" {% if task.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                </select>
+                                <input type="number" name="points" value="{{ task.points }}" min="0">
+                                <button type="submit">Update</button>
+                            </form>
+                            {% else %}
+                            <span style="color: gray;">Completed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
