@@ -8,11 +8,10 @@
         <ul>
 {% for intern in interns %}
 <li>
-    <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">
-        {{ intern.name }} <span style="color: #ccc;">(#{{ intern.rank }})</span>
-    </a>
+    <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">{{ intern.name }}</a>
 </li>
 {% endfor %}
+
 
         </ul>
     </div>
