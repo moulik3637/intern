@@ -20,10 +20,21 @@ def get_db_connection():
 def index():
     conn = get_db_connection()
     with conn.cursor() as cursor:
-        cursor.execute('SELECT * FROM interns')
+        # 🔹 Get interns with total points
+        cursor.execute('''
+            SELECT i.id, i.name, COALESCE(SUM(t.points), 0) AS total_points
+            FROM interns i
+            LEFT JOIN tasks t ON i.id = t.intern_id
+            GROUP BY i.id, i.name
+            ORDER BY total_points DESC
+        ''')
         interns = cursor.fetchall()
 
-        # ✅ Order tasks by insertion (task ID)
+        # 🔹 Assign rank to each intern
+        for idx, intern in enumerate(interns, start=1):
+            intern['rank'] = idx
+
+        # 🔹 Get all tasks ordered by assignment (task ID)
         cursor.execute('''
             SELECT t.id, i.name, t.task, t.status, t.points, t.intern_id
             FROM tasks t
@@ -32,16 +43,9 @@ def index():
         ''')
         tasks = cursor.fetchall()
 
-        # Top 3 interns by points
-        cursor.execute('''
-            SELECT i.id, i.name, SUM(t.points) AS total_points
-            FROM interns i
-            JOIN tasks t ON i.id = t.intern_id
-            GROUP BY i.id, i.name
-            ORDER BY total_points DESC
-            LIMIT 3
-        ''')
-        top_interns = cursor.fetchall()
+        # 🔹 Top 3 interns already sorted above
+        top_interns = interns[:3]
+
     conn.close()
     return render_template('index.html', interns=interns, tasks=tasks, top_interns=top_interns)
 
