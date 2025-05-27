@@ -43,11 +43,29 @@ def index():
         ''')
         tasks = cursor.fetchall()
 
-        # 🔹 Top 3 interns already sorted above
+        # 🔹 Top 3 interns
         top_interns = interns[:3]
 
+        # 🔹 Count tasks by status
+        cursor.execute("SELECT COUNT(*) AS count FROM tasks WHERE status = 'Completed'")
+        completed_count = cursor.fetchone()['count']
+
+        cursor.execute("SELECT COUNT(*) AS count FROM tasks WHERE status = 'To be reviewed'")
+        review_count = cursor.fetchone()['count']
+
+        cursor.execute("SELECT COUNT(*) AS count FROM tasks WHERE status = 'Processing'")
+        processing_count = cursor.fetchone()['count']
+
     conn.close()
-    return render_template('index.html', interns=interns, tasks=tasks, top_interns=top_interns)
+    return render_template(
+        'index.html',
+        interns=interns,
+        tasks=tasks,
+        top_interns=top_interns,
+        completed_count=completed_count,
+        review_count=review_count,
+        processing_count=processing_count
+    )
 
 
 @app.route('/public_intern/<int:intern_id>')
