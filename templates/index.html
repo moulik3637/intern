@@ -8,80 +8,96 @@
         <h3>Interns (LeaderBoard)</h3>
         <ul>
             {% for intern in interns %}
-<li>
-    <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">
-        {{ intern.name }} <span style="color: #ccc;">(#{{ intern.rank }})</span>
-    </a>
-</li>
-{% endfor %}
-
+            <li>
+                <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">
+                    {{ intern.name }}
+                    <span style="color: #ccc;">
+                        (#{{ intern.rank }}) - {{ intern.total_points }} pts
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
         </ul>
     </div>
+
     <!-- Main Content -->
     <div class="main-content">
         <h1 style="text-align:center; margin-bottom: 30px;">Intern Task Dashboard</h1>
+
+        <!-- Task Status Summary -->
         <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;">
-    <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-        <h3>✅ Completed</h3>
-        <p style="font-size: 1.5rem; font-weight: bold; color: green;">{{ completed_count }}</p>
-    </div>
-    <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-        <h3>🕵️ To Be Reviewed</h3>
-        <p style="font-size: 1.5rem; font-weight: bold; color: orange;">{{ review_count }}</p>
-    </div>
-    <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-        <h3>⚙️ Processing</h3>
-        <p style="font-size: 1.5rem; font-weight: bold; color: #007bff;">{{ processing_count }}</p>
-    </div>
-</div>
+            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+                <h3>✅ Completed</h3>
+                <p style="font-size: 1.5rem; font-weight: bold; color: green;">{{ completed_count }}</p>
+            </div>
+            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+                <h3>🕵️ To Be Reviewed</h3>
+                <p style="font-size: 1.5rem; font-weight: bold; color: orange;">{{ review_count }}</p>
+            </div>
+            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
+                <h3>⚙️ Processing</h3>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #007bff;">{{ processing_count }}</p>
+            </div>
+        </div>
 
-
+        <!-- Top 3 -->
         <h2 style="margin-top: 20px;">Top 3</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Total Points</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for intern in top_interns %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ intern.name }}</td>
-            <td>{{ intern.total_points }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Total Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for intern in top_interns %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ intern.name }}</td>
+                    <td>{{ intern.total_points }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-
+        <!-- All Tasks -->
         <h2>All Tasks</h2>
         <table>
-            <tr>
-                <th>Name</th>
-                <th>Task</th>
-                <th>Status</th>
-                <th>Points</th>
-                <th>Update</th>
-            </tr>
-            {% for task in tasks %}
-            <tr>
-                <td>{{ task.name }}</td>
-                <td>{{ task.task }}</td>
-                <td>
-                    <span class="status-{{ task.status|lower|replace(' ', '-') }}">
-                        {{ task.status.replace('Done', 'Completed') }}
-                    </span>
-                </td>
-                <td>{{ task.points }}</td>
-                <td>
-                    <a href="{{ url_for('update_task_page', task_id=task.id) }}" class="update-btn">Update</a>
-                </td>
-            </tr>
-            {% endfor %}
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Points</th>
+                    <th>Update</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.task }}</td>
+                    <td>
+                        <span class="status-{{ task.status|lower|replace(' ', '-') }}">
+                            {{ task.status.replace('Done', 'Completed') }}
+                        </span>
+                    </td>
+                    <td>{{ task.points }}</td>
+                    <td>
+                        <a href="{{ url_for('update_task_page', task_id=task.id) }}" class="update-btn">Update</a>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('mark_for_review', task_id=task.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to mark this task for review?');">
+                            <button type="submit" style="padding: 5px 10px; background: #ffcc00; border: none; border-radius: 5px; cursor: pointer;">Mark for Review</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>
+
 {% endblock %}
