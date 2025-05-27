@@ -67,6 +67,15 @@ def index():
         processing_count=processing_count
     )
 
+@app.route('/mark_for_review/<int:task_id>', methods=['POST'])
+def mark_for_review(task_id):
+    conn = get_db_connection()
+    with conn.cursor() as cursor:
+        cursor.execute("UPDATE tasks SET status = 'To be reviewed' WHERE id = %s", (task_id,))
+        conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
 
 @app.route('/public_intern/<int:intern_id>')
 def public_intern_detail(intern_id):
@@ -107,17 +116,32 @@ def login():
 def admin_dashboard():
     if 'loggedin' not in session:
         return redirect(url_for('login'))
+
     conn = get_db_connection()
     with conn.cursor() as cursor:
+        # Add new intern
         if request.method == 'POST':
             name = request.form['name']
             department = request.form['department']
             cursor.execute('INSERT INTO interns (name, department) VALUES (%s, %s)', (name, department))
             conn.commit()
-        cursor.execute('SELECT * FROM interns')
+
+        # Get interns + latest task status
+        cursor.execute('''
+            SELECT i.*, (
+                SELECT t.status
+                FROM tasks t
+                WHERE t.intern_id = i.id
+                ORDER BY t.id DESC
+                LIMIT 1
+            ) AS latest_status
+            FROM interns i
+        ''')
         interns = cursor.fetchall()
+
     conn.close()
     return render_template('admin_dashboard.html', interns=interns)
+
 
 @app.route('/intern/<int:intern_id>', methods=['GET', 'POST'])
 def view_intern_tasks(intern_id):
