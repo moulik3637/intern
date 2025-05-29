@@ -28,7 +28,7 @@
             <div class="space-x-4">
                 <a href="{{ url_for('index') }}" class="hover:underline">Home</a>
                 <a href="{{ url_for('admin_dashboard') }}" class="hover:underline">Admin</a>
-                {% if session.loggedin %}
+                {% if session.get('loggedin') %}
                     <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
                 {% endif %}
             </div>
