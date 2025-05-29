@@ -24,7 +24,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 py-8">
+    <main id="page-content" class="flex-grow max-w-7xl mx-auto px-4 py-8 opacity-0 translate-y-2 transition-all duration-500">
         {% block content %}{% endblock %}
     </main>
 
@@ -33,5 +33,13 @@
         &copy; 2025 Intern Manager. All rights reserved.
     </footer>
 
+    <!-- Page Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const page = document.getElementById("page-content");
+            page.classList.remove("opacity-0", "translate-y-2");
+            page.classList.add("opacity-100", "translate-y-0");
+        });
+    </script>
 </body>
 </html>
