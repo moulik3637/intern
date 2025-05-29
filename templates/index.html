@@ -2,105 +2,113 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<div class="dashboard-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h3>Interns (LeaderBoard)</h3>
-        <ul>
-            {% for intern in interns %}
-            <li>
-                <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}">
-                    {{ intern.name }}
-                    <span style="color: #ccc;">
-                        (#{{ intern.rank }}) - {{ intern.total_points }} pts
-                    </span>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
+<div class="flex flex-col md:flex-row gap-6">
+  <!-- Sidebar -->
+  <div class="md:w-1/4 bg-white shadow rounded p-4">
+    <h3 class="text-xl font-semibold text-gray-700 mb-4">Interns (Leaderboard)</h3>
+    <ul class="space-y-2">
+      {% for intern in interns %}
+      <li>
+        <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}" class="block text-gray-800 hover:text-blue-600">
+          {{ intern.name }} <span class="text-sm text-gray-500">(#{{ intern.rank }}) - {{ intern.total_points }} pts</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="md:w-3/4">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Intern Task Dashboard</h1>
+
+    <!-- Task Status Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-green-100 border border-green-300 p-4 rounded shadow text-center">
+        <h3 class="text-lg font-medium text-green-800">✅ Completed</h3>
+        <p class="text-2xl font-bold text-green-900">{{ completed_count }}</p>
+      </div>
+      <div class="bg-yellow-100 border border-yellow-300 p-4 rounded shadow text-center">
+        <h3 class="text-lg font-medium text-yellow-800">🕵️ To Be Reviewed</h3>
+        <p class="text-2xl font-bold text-yellow-900">{{ review_count }}</p>
+      </div>
+      <div class="bg-blue-100 border border-blue-300 p-4 rounded shadow text-center">
+        <h3 class="text-lg font-medium text-blue-800">⚙️ Processing</h3>
+        <p class="text-2xl font-bold text-blue-900">{{ processing_count }}</p>
+      </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1 style="text-align:center; margin-bottom: 30px;">Intern Task Dashboard</h1>
-
-        <!-- Task Status Summary -->
-        <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;">
-            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-                <h3>✅ Completed</h3>
-                <p style="font-size: 1.5rem; font-weight: bold; color: green;">{{ completed_count }}</p>
-            </div>
-            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-                <h3>🕵️ To Be Reviewed</h3>
-                <p style="font-size: 1.5rem; font-weight: bold; color: orange;">{{ review_count }}</p>
-            </div>
-            <div class="card" style="flex: 1; min-width: 200px; max-width: 250px; text-align: center;">
-                <h3>⚙️ Processing</h3>
-                <p style="font-size: 1.5rem; font-weight: bold; color: #007bff;">{{ processing_count }}</p>
-            </div>
-        </div>
-
-        <!-- Top 3 -->
-        <h2 style="margin-top: 20px;">Top 3</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Total Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for intern in top_interns %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ intern.name }}</td>
-                    <td>{{ intern.total_points }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <!-- All Tasks -->
-        <h2>All Tasks</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Task</th>
-                    <th>Status</th>
-                    <th>Points</th>
-                    <th>Update</th>
-                    <th>Review</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                <tr>
-                    <td>{{ task.name }}</td>
-                    <td>{{ task.task }}</td>
-                    <td>
-                        <span class="status-{{ task.status|lower|replace(' ', '-') }}">
-                            {{ task.status.replace('Done', 'Completed') }}
-                        </span>
-                    </td>
-                    <td>{{ task.points }}</td>
-                    <td>
-                        <a href="{{ url_for('update_task_page', task_id=task.id) }}" class="update-btn">Update</a>
-                    </td>
-                    <td>
-                        <form action="{{ url_for('mark_for_review', task_id=task.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to mark this task for review?');">
-                            <button type="submit" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-    Mark for Review
-</button>
-
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Top 3 Interns -->
+    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Top 3 Interns</h2>
+    <div class="overflow-x-auto mb-8">
+      <table class="min-w-full bg-white border border-gray-300 rounded shadow">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Rank</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Name</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Total Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for intern in top_interns %}
+          <tr class="border-t">
+            <td class="py-2 px-4">{{ loop.index }}</td>
+            <td class="py-2 px-4">{{ intern.name }}</td>
+            <td class="py-2 px-4">{{ intern.total_points }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+
+    <!-- All Tasks -->
+    <h2 class="text-2xl font-semibold text-gray-700 mb-4">All Tasks</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300 rounded shadow">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Name</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Task</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Status</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Points</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Update</th>
+            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Review</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+          <tr class="border-t">
+            <td class="py-2 px-4">{{ task.name }}</td>
+            <td class="py-2 px-4">{{ task.task }}</td>
+            <td class="py-2 px-4">
+              <span class="inline-block px-2 py-1 rounded text-white text-sm
+                {% if task.status == 'Completed' %} bg-green-500
+                {% elif task.status == 'To be reviewed' %} bg-yellow-500
+                {% else %} bg-blue-500 {% endif %}">
+                {{ task.status.replace('Done', 'Completed') }}
+              </span>
+            </td>
+            <td class="py-2 px-4">{{ task.points }}</td>
+            <td class="py-2 px-4">
+              <a href="{{ url_for('update_task_page', task_id=task.id) }}"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1 px-3 rounded">
+                Update
+              </a>
+            </td>
+            <td class="py-2 px-4">
+              <form action="{{ url_for('mark_for_review', task_id=task.id) }}" method="post"
+                onsubmit="return confirm('Are you sure you want to mark this task for review?');">
+                <button type="submit"
+                  class="bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-1 px-3 rounded">
+                  Mark for Review
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
