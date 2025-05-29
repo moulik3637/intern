@@ -3,7 +3,7 @@
 {% block content %}
 <div class="dashboard-container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="top: 64px;">  <!-- Added top position equal to navbar height -->
         <h3>Interns</h3>
         <ul>
             {% for i in interns %}
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" style="margin-top: 20px;">  <!-- Added margin to prevent content hiding under navbar -->
         <div class="card animate-fade-in" style="max-width: 800px; margin: 20px auto;">
             <h2 style="margin-bottom: 10px;">{{ intern.name }} <span style="font-weight: normal;">- {{ intern.department }}</span></h2>
             <p style="font-size: 1.1rem; color: #444;">⭐ <strong>Total Points:</strong> {{ total_points }}</p>
@@ -44,5 +44,13 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
+<style>
+    /* Add this to your style.css or in the head section */
+    .sidebar {
+        padding-top: 20px;
+        height: calc(100vh - 84px); /* Adjust height accounting for navbar */
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}
