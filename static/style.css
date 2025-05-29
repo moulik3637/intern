@@ -2,8 +2,8 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ box-sizing: border-box;
+ font-family: 'Roboto', sans-serif;
 }
 
 /* Background Image */
@@ -22,11 +22,16 @@ body::before {
     z-index: -1;
 }
 
+/* Typography Base */
+body {
+ font-family: 'Roboto', sans-serif;
+ font-size: 1rem; /* Base font size */
+}
+
 /* Navbar */
 .navbar {
-    background-color: #5d4037;
+ background-color: #2c3e50; /* Deep Blue */
     padding: 18px 30px;
-    color: white;
     font-size: 1.4rem;
     font-weight: bold;
     border-radius: 12px;
@@ -34,11 +39,16 @@ body::before {
     display: flex;
     justify-content: center;
     gap: 40px; /* <-- adds spacing between links */
+.navbar a, .navbar a:visited, .navbar a:active {
+    color: #ffffff; /* White */
+    text-decoration: none;
 }
+
 .navbar a:hover {
-    color: #ffd700 !important;
+ color: #b8860b; /* Muted Gold */
     text-decoration: underline;
 }
+
 
 
 /* Container */
@@ -76,7 +86,7 @@ body::before {
     font-size: 1.4rem;
     font-weight: bold;
     margin-top: 25px;
-    color: #5d4037;
+ color: #2c3e50; /* Deep Blue */
 }
 
 
@@ -113,7 +123,7 @@ body::before {
 .login-box h2 {
     margin-bottom: 25px;
     font-weight: bold;
-    color: #5d4037;
+ color: #2c3e50; /* Deep Blue */
 }
 
 input[type="text"],
@@ -129,18 +139,18 @@ select {
 }
 
 button {
-    background-color: #5d4037;
+ background-color: #2c3e50; /* Deep Blue */
     color: white;
     padding: 12px 20px;
     border: none;
-    border-radius: 8px;
+ border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 button:hover {
-    background-color: #3e2723;
+ background-color: #1f2a38; /* Darker Blue */
 }
 
 /* Table */
@@ -161,7 +171,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #5d4037;
+ background-color: #2c3e50; /* Deep Blue */
     color: white;
 }
 
@@ -237,12 +247,12 @@ table th {
 
 .admin-form input:focus {
     outline: none;
-    border-color: #5d4037;
-    box-shadow: 0 0 8px rgba(93, 64, 55, 0.4);
+ border-color: #2c3e50; /* Deep Blue */
+ box-shadow: 0 0 8px rgba(44, 62, 80, 0.4); /* Deep Blue Shadow */
 }
 
 .admin-form button {
-    background: #5d4037;
+ background: #2c3e50; /* Deep Blue */
     color: white;
     border: none;
     cursor: pointer;
@@ -270,7 +280,7 @@ table th {
 }
 
 .admin-table th {
-    background: #663535;
+ background: #2c3e50; /* Deep Blue */
     font-weight: bold;
 }
 
@@ -307,7 +317,7 @@ table th {
 .sidebar {
     width: 220px;
     background: #2c3e50;
-    color: white;
+ color: #ecf0f1; /* Light Grey */
     padding: 20px;
     height: 100vh;
     position: fixed;
@@ -329,7 +339,7 @@ table th {
 }
 
 .sidebar a {
-    color: #ecf0f1;
+ color: #ecf0f1; /* Light Grey */
     text-decoration: none;
 }
 
@@ -343,21 +353,10 @@ table th {
 .login-button, .logout-button {
     display: block;
     margin-top: 20px;
-    background: #3498db;
+ background: #2c3e50; /* Deep Blue */
     color: white;
     padding: 10px;
     text-align: center;
     border-radius: 5px;
-    text-decoration: none;
 }
-.navbar a,
-.navbar a:visited,
-.navbar a:active {
-    color: white !important;
-    text-decoration: none;
-}
-
-.navbar a:hover {
-    color: #ffd700 !important; /* Optional: gold on hover, or pick any color */
-    text-decoration: underline;
 }
