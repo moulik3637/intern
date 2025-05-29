@@ -314,10 +314,11 @@ table th {
     display: flex;
 }
 
+.dashboard-container {
+    display: flex;
+}
+
 .sidebar {
-    width: 220px;
-    background: #2c3e50;
- color: #ecf0f1; /* Light Grey */
     padding: 20px;
     height: 100vh;
     position: fixed;
@@ -344,6 +345,9 @@ table th {
 }
 
 .main-content {
+    margin-left: 240px; /* Adjust this value to be slightly more than the sidebar width */
+    padding: 20px;
+    flex: 1; /* Allow the main content to take up the remaining space */
     margin-left: 240px;
     padding: 20px;
     flex: 1;
