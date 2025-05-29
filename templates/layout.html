@@ -1,21 +1,56 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Intern Task Dashboard{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Intern Manager{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
 </head>
-<body>
-    <div class="navbar">
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('admin_dashboard') }}">Admin</a>
-        {% if session.get('loggedin') %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
-    </div>
-    <div class="container">
+<body class="bg-gray-100 font-sans text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-brown-800 text-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold tracking-wide">Intern Manager</div>
+            <div class="space-x-4">
+                <a href="{{ url_for('index') }}" class="hover:underline">Home</a>
+                <a href="{{ url_for('admin_dashboard') }}" class="hover:underline">Admin</a>
+                {% if session.loggedin %}
+                    <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main id="page-content" class="container mx-auto px-4 py-8 flex-grow fade-enter">
         {% block content %}{% endblock %}
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t py-4 text-center text-sm text-gray-500">
+        &copy; {{ now().year }} Intern Manager. All rights reserved.
+    </footer>
+
+    <script>
+        // Simple page transition
+        document.addEventListener("DOMContentLoaded", function () {
+            const page = document.getElementById("page-content");
+            page.classList.add("fade-enter-active");
+        });
+    </script>
 </body>
 </html>
