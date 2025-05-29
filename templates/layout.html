@@ -2,33 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Intern Manager{% endblock %}</title>
+    <title>{% block title %}Intern Task Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav style="background-color: #4b2e83; color: white; padding: 10px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-size: 1.5em;">Intern Manager</div>
-            <div>
-                <a href="{{ url_for('index') }}" style="color: white; margin-right: 15px;">Home</a>
-                <a href="{{ url_for('admin_dashboard') }}" style="color: white; margin-right: 15px;">Admin</a>
-                {% if session.get('loggedin') %}
-                <a href="{{ url_for('logout') }}" style="color: white;">Logout</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div style="padding: 20px;">
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+        {% if session.get('loggedin') %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+    <div class="container">
         {% block content %}{% endblock %}
     </div>
-
-    <!-- Footer -->
-    <footer style="background-color: #f3f3f3; text-align: center; padding: 10px; font-size: 0.9em; color: #555;">
-        &copy; 2025 Intern Manager. All rights reserved.
-    </footer>
 </body>
 </html>
