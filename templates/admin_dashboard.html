@@ -1,55 +1,49 @@
 {% extends "layout.html" %}
 {% block title %}Admin Dashboard{% endblock %}
 {% block content %}
-
-<div class="max-w-7xl mx-auto">
-  <div class="bg-white rounded shadow p-6 mb-8">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h2>
-      <a href="{{ url_for('logout') }}" class="text-sm text-red-600 hover:underline">Logout</a>
+<div class="admin-container">
+    <div class="admin-header">
+        <h2>Admin Dashboard</h2>
+        <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
     </div>
 
-    <h3 class="text-lg font-medium text-gray-700 mb-3">Add New Intern</h3>
-    <form method="post" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <input type="text" name="name" placeholder="Intern Name" required class="border rounded px-3 py-2">
-      <input type="text" name="department" placeholder="Department" required class="border rounded px-3 py-2">
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Intern</button>
+    <h3>Add New Intern</h3>
+    <form method="post" class="admin-form">
+        <input type="text" name="name" placeholder="Intern Name" required>
+        <input type="text" name="department" placeholder="Department" required>
+        <button type="submit">Add Intern</button>
     </form>
 
-    <h3 class="text-xl font-semibold text-gray-800 mb-4">All Interns</h3>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white border border-gray-300 rounded shadow text-sm">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="py-2 px-4 text-left">ID</th>
-            <th class="py-2 px-4 text-left">Name</th>
-            <th class="py-2 px-4 text-left">Department</th>
-            <th class="py-2 px-4 text-left">Status</th>
-            <th class="py-2 px-4 text-left">Tasks</th>
-          </tr>
+    <h3>All Interns</h3>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th> <!-- ✅ Added -->
+                <th>Tasks</th>
+            </tr>
         </thead>
         <tbody>
-          {% for intern in interns %}
-          <tr class="border-t">
-            <td class="py-2 px-4">{{ intern.id }}</td>
-            <td class="py-2 px-4">{{ intern.name }}</td>
-            <td class="py-2 px-4">{{ intern.department }}</td>
-            <td class="py-2 px-4">
-              {% if intern.latest_status == 'Completed' %}
-              <span class="text-green-600 font-medium">Free</span>
-              {% else %}
-              <span class="text-red-600 font-medium">Occupied</span>
-              {% endif %}
-            </td>
-            <td class="py-2 px-4">
-              <a href="{{ url_for('view_intern_tasks', intern_id=intern.id) }}" class="text-blue-600 hover:underline">View & Assign Tasks</a>
-            </td>
-          </tr>
-          {% endfor %}
+            {% for intern in interns %}
+            <tr>
+                <td>{{ intern.id }}</td>
+                <td>{{ intern.name }}</td>
+                <td>{{ intern.department }}</td>
+                <td>
+                    {% if intern.latest_status == 'Completed' %}
+                        <span style="color: green; font-weight: bold;">Free</span>
+                    {% else %}
+                        <span style="color: red; font-weight: bold;">Occupied</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('view_intern_tasks', intern_id=intern.id) }}">View & Assign Tasks</a>
+                </td>
+            </tr>
+            {% endfor %}
         </tbody>
-      </table>
-    </div>
-  </div>
+    </table>
 </div>
-
 {% endblock %}
