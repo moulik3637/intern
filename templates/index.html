@@ -1,114 +1,221 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
-<div class="flex flex-col md:flex-row gap-6">
-  <!-- Sidebar -->
-  <div class="md:w-1/4 bg-white shadow rounded p-4">
-    <h3 class="text-xl font-semibold text-gray-700 mb-4">Interns (Leaderboard)</h3>
-    <ul class="space-y-2">
-      {% for intern in interns %}
-      <li>
-        <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}" class="block text-gray-800 hover:text-blue-600">
-          {{ intern.name }} <span class="text-sm text-gray-500">(#{{ intern.rank }}) - {{ intern.total_points }} pts</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <!-- Main Content -->
-  <div class="md:w-3/4">
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Intern Task Dashboard</h1>
-
-    <!-- Task Status Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div class="bg-green-100 border border-green-300 p-4 rounded shadow text-center">
-        <h3 class="text-lg font-medium text-green-800">✅ Completed</h3>
-        <p class="text-2xl font-bold text-green-900">{{ completed_count }}</p>
-      </div>
-      <div class="bg-yellow-100 border border-yellow-300 p-4 rounded shadow text-center">
-        <h3 class="text-lg font-medium text-yellow-800">🕵️ To Be Reviewed</h3>
-        <p class="text-2xl font-bold text-yellow-900">{{ review_count }}</p>
-      </div>
-      <div class="bg-blue-100 border border-blue-300 p-4 rounded shadow text-center">
-        <h3 class="text-lg font-medium text-blue-800">⚙️ Processing</h3>
-        <p class="text-2xl font-bold text-blue-900">{{ processing_count }}</p>
-      </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-animate>
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            Intern Task Dashboard
+        </h1>
+        <p class="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+            Track and manage intern tasks efficiently
+        </p>
     </div>
 
-    <!-- Top 3 Interns -->
-    <h2 class="text-2xl font-semibold text-gray-700 mb-4">Top 3 Interns</h2>
-    <div class="overflow-x-auto mb-8">
-      <table class="min-w-full bg-white border border-gray-300 rounded shadow">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Rank</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Name</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Total Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for intern in top_interns %}
-          <tr class="border-t">
-            <td class="py-2 px-4">{{ loop.index }}</td>
-            <td class="py-2 px-4">{{ intern.name }}</td>
-            <td class="py-2 px-4">{{ intern.total_points }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                        <i class="fas fa-check-circle text-white text-xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Completed</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">{{ completed_count }}</div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                        <i class="fas fa-search text-white text-xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">To Be Reviewed</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">{{ review_count }}</div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                        <i class="fas fa-cog text-white text-xl"></i>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">Processing</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">{{ processing_count }}</div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- All Tasks -->
-    <h2 class="text-2xl font-semibold text-gray-700 mb-4">All Tasks</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white border border-gray-300 rounded shadow">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Name</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Task</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Status</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Points</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Update</th>
-            <th class="py-2 px-4 text-left text-sm font-semibold text-gray-600">Review</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for task in tasks %}
-          <tr class="border-t">
-            <td class="py-2 px-4">{{ task.name }}</td>
-            <td class="py-2 px-4">{{ task.task }}</td>
-            <td class="py-2 px-4">
-              <span class="inline-block px-2 py-1 rounded text-white text-sm
-                {% if task.status == 'Completed' %} bg-green-500
-                {% elif task.status == 'To be reviewed' %} bg-yellow-500
-                {% else %} bg-blue-500 {% endif %}">
-                {{ task.status.replace('Done', 'Completed') }}
-              </span>
-            </td>
-            <td class="py-2 px-4">{{ task.points }}</td>
-            <td class="py-2 px-4">
-              <a href="{{ url_for('update_task_page', task_id=task.id) }}"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1 px-3 rounded">
-                Update
-              </a>
-            </td>
-            <td class="py-2 px-4">
-              <form action="{{ url_for('mark_for_review', task_id=task.id) }}" method="post"
-                onsubmit="return confirm('Are you sure you want to mark this task for review?');">
-                <button type="submit"
-                  class="bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-1 px-3 rounded">
-                  Mark for Review
-                </button>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Leaderboard -->
+        <div class="lg:w-1/3">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+                <div class="px-6 py-5 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Top Interns</h3>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    {% for intern in top_interns %}
+                    <div class="px-6 py-4 flex items-center {% if loop.index <= 3 %}bg-gray-50{% endif %}">
+                        <div class="flex-shrink-0 mr-4">
+                            <span class="inline-flex items-center justify-center h-10 w-10 rounded-full 
+                                {% if loop.index == 1 %}bg-yellow-500
+                                {% elif loop.index == 2 %}bg-gray-400
+                                {% elif loop.index == 3 %}bg-amber-700
+                                {% else %}bg-gray-200{% endif %}">
+                                <span class="text-white font-bold">{{ loop.index }}</span>
+                            </span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">
+                                {{ intern.name }}
+                            </p>
+                            <p class="text-sm text-gray-500 truncate">
+                                {{ intern.total_points }} points
+                            </p>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}" 
+                               class="text-primary-600 hover:text-primary-900 text-sm font-medium">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- All Interns -->
+            <div class="mt-6 bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+                <div class="px-6 py-5 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">All Interns</h3>
+                </div>
+                <ul class="divide-y divide-gray-200">
+                    {% for intern in interns %}
+                    <li class="px-6 py-4 hover:bg-gray-50 transition duration-150">
+                        <a href="{{ url_for('public_intern_detail', intern_id=intern.id) }}" class="flex items-center">
+                            <div class="flex-shrink-0 mr-4">
+                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-primary-500 text-white">
+                                    {{ intern.name[0] }}
+                                </span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">
+                                    {{ intern.name }}
+                                </p>
+                                <p class="text-sm text-gray-500 truncate">
+                                    #{{ intern.rank }} - {{ intern.total_points }} pts
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-sm text-gray-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tasks Table -->
+        <div class="lg:w-2/3">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover transition duration-300">
+                <div class="px-6 py-5 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">All Tasks</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Points</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for task in tasks %}
+                            <tr class="hover:bg-gray-50 transition duration-150">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ task.name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ task.task }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        {% if task.status == 'Completed' %}bg-green-100 text-green-800
+                                        {% elif task.status == 'To be reviewed' %}bg-yellow-100 text-yellow-800
+                                        {% else %}bg-blue-100 text-blue-800{% endif %}">
+                                        {{ task.status.replace('Done', 'Completed') }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ task.points }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="{{ url_for('update_task_page', task_id=task.id) }}" 
+                                           class="text-indigo-600 hover:text-indigo-900">Update</a>
+                                        <form action="{{ url_for('mark_for_review', task_id=task.id) }}" method="post">
+                                            <button type="submit" 
+                                                    class="text-yellow-600 hover:text-yellow-900"
+                                                    onclick="return confirm('Are you sure you want to mark this task for review?')">
+                                                Review
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
+<script>
+    // Add animation to stats cards
+    document.addEventListener('DOMContentLoaded', () => {
+        const stats = document.querySelectorAll('[class*="grid-cols-3"] > div');
+        stats.forEach((stat, index) => {
+            setTimeout(() => {
+                stat.classList.add('animate-slide-up');
+            }, index * 150);
+        });
+        
+        // Tooltip for table actions
+        const actions = document.querySelectorAll('td.text-sm.font-medium a, td.text-sm.font-medium button');
+        actions.forEach(action => {
+            action.addEventListener('mouseenter', () => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'absolute z-10 bg-gray-900 text-white text-xs rounded py-1 px-2';
+                tooltip.textContent = action.textContent.trim();
+                action.appendChild(tooltip);
+                
+                setTimeout(() => {
+                    tooltip.remove();
+                }, 1000);
+            });
+        });
+    });
+</script>
 {% endblock %}
