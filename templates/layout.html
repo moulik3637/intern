@@ -62,6 +62,8 @@
                         {% if session.get('loggedin') %}
                             <a href="{{ url_for('admin_dashboard') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-white hover:bg-opacity-20 transition duration-300">Admin</a>
                             <a href="{{ url_for('logout') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-white hover:bg-opacity-20 transition duration-300">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-white hover:bg-opacity-20 transition duration-300">Login</a>
                         {% endif %}
                     </div>
                 </div>
